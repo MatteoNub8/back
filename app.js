@@ -88,14 +88,29 @@ app.post('/city', (req, res) => {
     });
 });
 
-app.put('/update', (req, res) => {
-    const {id_employee,id_state,id_country,id_city} = req.body;
-    const query = `UPDATE employee_location SET id_country = `+id_country+`, id_state = `+id_state+ `, id_city = `+id_city+ ` WHERE id_employee =`+id_employee;
-    console.log(query)
+app.put('/update', async function(req, res) {
+
+    const {id_employee, id_state, id_country, id_city} = req.body;
+
+    const queryU =  `UPDATE employee_Location SET end_Date = CURRENT_DATE - 1 WHERE id_Employee = ${id_employee}`;
+
+    const resultU = await client.query(queryU);
+
+    const query = `INSERT INTO Employee_Location (load_date, Start_Date, End_Date, Id_Employee, id_country, Id_State, Id_City)
+                    VALUES (CURRENT_DATE, '1900-01-01', '2099-12-31', ${id_employee}, ${id_country}, ${id_state}, ${id_city})`;
+
+    console.log(query);
+
     client.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(`Employee with ID ${id_employee} updated`);
-        res.send(`Employee with ID ${id_employee} updated`);
+
+        if (err) {
+            console.error(err);
+            res.status(500).send('Error updating employee location');
+        } else {
+            console.log(`Employee with ID ${id_employee} updated`);
+            res.send(`Employee with ID ${id_employee} updated`);
+        }
+
     });
 });
 
