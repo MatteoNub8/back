@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+
+<body>
+    <section>
+        <h2>Ingresa Id del Empleado</h2>
+    </section>
+    <section>
+        <form method="post" action="/employee_data">
+            <input type="text" id="id_empelado" name="id_empelado">
+            <input type="submit" value="buscar Empleado">
+        </form>
+    </section>
+    <% if (employee_data) { %>
+        <section>
+            <h3>Employee Data:</h3>
+            <p>First Name: <%= employee_data.first_name %></p>
+            <p>Last Name: <%= employee_data.last_name %></p>
+            <p>Job Title: <%= employee_data.job_title %></p>
+            <p>City: <%= employee_data.city_name %></p>
+            <p>State: <%= employee_data.state_name %></p>
+            <p>Country: <%= employee_data.country_name %></p>
+        </section>
+    <% } %>
+</body>
